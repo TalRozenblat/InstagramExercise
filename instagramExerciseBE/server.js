@@ -2,6 +2,11 @@ import express from 'express';
 import cors from 'cors'; 
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
+import userRouter from './routes/userRoutes';
+import followRouter from './routes/followRoutes';
+import likeRouter from './routes/likeRoutes';
+import postRouter from './routes/postRoutes';
+
 
 const app = express();
 
@@ -12,6 +17,10 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: true}));
 
+app.use('/user', userRouter);
+app.use('/follow', followRouter);
+app.use('/like', likeRouter);
+app.use('/post', postRouter);
 
 
 
