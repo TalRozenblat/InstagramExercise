@@ -72,7 +72,7 @@ const itemData = [
 
 export default function PrivateFeed() {
   const feed_html = (
-    <ImageList sx={{ width: "auto", height: "auto" }}>
+    <ImageList sx={{ width: "auto", height: "auto" }} cols={1}>
       {itemData.map((item) => (
         <ImageListItem key={item.img}>
           <img
