@@ -9,31 +9,25 @@ import { v2 as cloudinary } from 'cloudinary';
 
 
 const login = async (req, res) => {
-    const user = await User.find({ email: req.body.email});
+  const user = await User.find({ email: req.body.email });
 
-    if(user == false){
-        return res.send('Email or password is incorrect.');
+  if (user == false) {
+    return res.send("Email or password is incorrect.");
+  }
 
-    }
-
-    //check password
-    if(await bcrypt.compare(req.body.password, user[0].password)){
-        const userToReturn = {
-            email: user[0].email,
-            firstName: user[0].firstName,
-            lastName: user[0].lastName,
-            id: user[0]._id
-
-            
-        }
-        return res.send(userToReturn);
-    }
-    else{
-        return res.send('Email or password is incorrect.');
-
-    }
-
-}
+  //check password
+  if (await bcrypt.compare(req.body.password, user[0].password)) {
+    const userToReturn = {
+      email: user[0].email,
+      firstName: user[0].firstName,
+      lastName: user[0].lastName,
+      id: user[0]._id,
+    };
+    return res.send(userToReturn);
+  } else {
+    return res.send("Email or password is incorrect.");
+  }
+};
 
 const signup = async (req, res) => {
 

@@ -4,6 +4,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { useAuthContext } from "../contexts/AuthContext";
+import { Button } from "@mui/material";
 
 import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 
@@ -131,8 +133,11 @@ const itemData = [
 ];
 
 export default function ProfilePage() {
+  const { logout } = useAuthContext();
+
   return (
     <>
+      <Button onClick={() => logout()}>Logout</Button>
       <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
         {itemData.map((item) => (
           <ImageListItem sx={{ width: "33vw" }} key={item.img}>
