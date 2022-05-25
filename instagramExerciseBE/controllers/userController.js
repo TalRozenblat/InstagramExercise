@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import User from '../data/Users.js';
 import db from '../config/config.js'
 import mongoose from 'mongoose';
+import { v2 as cloudinary } from 'cloudinary';
+
+
 
 
 const login = async (req, res) => {
@@ -47,13 +50,15 @@ const signup = async (req, res) => {
         return;
     }
 
+    const uploadResult = req.file && await cloudinary.uploader.upload(req.file.path);
     const hashedPassword = await bcrypt.hash(req.body.password , 10);
 
     const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: hashedPassword,
-        email: req.body.email
+        email: req.body.email,
+        profilePicture: uploadResult ? uploadResult.secure_url : null,
     });
 
 
@@ -70,4 +75,44 @@ const signup = async (req, res) => {
     }
 }
 
-export default { login, signup }
+const updateUser = async (req, res) => {
+
+    const uploadResult = req.file && await cloudinary.uploader.upload(req.file.path);
+    const user = await User.find({ _id: req.params.id});
+
+    if(user == false){
+        return res.status(404).send('User not found.');
+
+    }
+    const update = {}
+    const filter = { _id: req.params.id }
+
+    uploadResult ? (update.profilePicture = (uploadResult ? uploadResult.secure_url : null)) : null;
+    
+    req.body.firstName ? update.firstName = req.body.firstName : null;
+    req.body.lastName ? update.lastName = req.body.lastName : null;
+    req.body.email ? update.email = req.body.email : null;
+
+    const updatedUser = await User.findOneAndUpdate(filter, update, {
+        new: true
+    });
+
+    return res.send(updatedUser);
+
+}
+
+const getUserById = async (req, res) => {
+
+    const user = await User.find({ _id: req.params.id});
+
+    const userToReturn = {
+        email: user[0].email,
+        firstName: user[0].firstName,
+        lastName: user[0].lastName,
+        id: user[0]._id
+
+        
+    }
+    return res.send(userToReturn);
+}
+export default { login, signup, updateUser, getUserById }

@@ -1,5 +1,6 @@
 import db from '../config/config.js'
 import Post from '../data/Posts.js';
+import Like from '../data/Likes.js';
 import { v2 as cloudinary } from 'cloudinary';
 
 
@@ -51,4 +52,17 @@ const deletePost = async (req, res) => {
     }
     
 }
-export default { addPost, getAllPosts, getPostsByUserId, deletePost }
+
+const getAllMyFollowPosts = async (req, res) => {
+    const likes = await Like.find({ Userid: req.params.id});
+    const posts = [];
+
+    for(let i = 0; i < likes.length; i++){
+        const postToAdd = await Post.find({ _id: likes[i].Postid })
+        posts.push(postToAdd[0]);
+    }
+
+
+    return res.send(posts);
+}
+export default { addPost, getAllPosts, getPostsByUserId, deletePost, getAllMyFollowPosts }

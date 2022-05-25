@@ -7,14 +7,14 @@ const addLike = async (req, res) => {
 
 
     const newLike = new Like({
-        Img: uploadResult ? uploadResult.secure_url : null,
-        userId: req.body.userId
+        Userid: req.body.userId,
+        Postid: req.body.postId
     });
 
     try {
         
-        await newPost.save();
-        return res.send(newPost);
+        await newLike.save();
+        return res.send(newLike);
     }
 
     catch (err) {
@@ -25,16 +25,17 @@ const addLike = async (req, res) => {
 
 const getLikeByPostId = async (req, res) => {
 
-    const posts = await Like.find({ Postid: req.body.postId});
+    const likes = await Like.find({ Postid: req.params.id});
 
-    return res.send(posts);
+    return res.send(likes);
     
 }
-const getPostsByUserId = async (req, res) => {
+const getLikesByUserId = async (req, res) => {
 
-    const posts = await Post.find({ userId: req.params.id});
+    const likes = await Like.find({ Userid: req.params.id});
 
-    return res.send(posts);
+
+    return res.send(likes);
     
 }
 
@@ -51,4 +52,4 @@ const deleteLike = async (req, res) => {
     
 }
 
-export default { addLike, deleteLike, getLikeByPostId,  }
+export default { addLike, deleteLike, getLikeByPostId, getLikesByUserId }

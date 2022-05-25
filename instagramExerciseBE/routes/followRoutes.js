@@ -3,7 +3,10 @@ import followController from '../controllers/followController.js';
 
 const router = express.Router();
 
-router.route('/').get();
+router.route('/').post(followController.addFollow);
+router.route('/:id').delete(followController.deleteFollow);
+router.route('/followers/:id').get(followController.getFollowersByUserId);
+router.route('/following/:id').get(followController.getFollowsByUserId)
 
 
 
