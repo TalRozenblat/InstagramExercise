@@ -8,5 +8,14 @@ export function useActivityContext() {
 }
 
 export function ActivityContextProvider({ children }) {
-  return <ActivityContext.Provider> {children}</ActivityContext.Provider>;
+  const createPost = () => {
+    console.log("post_created");
+  };
+
+  return (
+    <ActivityContext.Provider value={{ createPost }}>
+      {" "}
+      {children}
+    </ActivityContext.Provider>
+  );
 }
