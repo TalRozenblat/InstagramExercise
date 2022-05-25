@@ -8,8 +8,19 @@ export function useActivityContext() {
 }
 
 export function ActivityContextProvider({ children }) {
-  const createPost = () => {
-    console.log("post_created");
+  const createPost = async (new_post) => {
+    console.log(new_post.userId);
+    let formData = new FormData();
+    formData.append("description", new_post.description);
+    formData.append("userId", new_post.userId);
+    formData.append("img", new_post.img);
+    console.log(formData);
+    try {
+      const res = await axios.post("http://localhost:8080/post/", formData);
+      return res.data;
+    } catch (err) {
+      return { error: err };
+    }
   };
 
   return (

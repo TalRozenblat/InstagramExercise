@@ -5,6 +5,8 @@ import ProfilePage from "./pages/ProfilePage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import CreatePost from "./pages/CreatePost";
+import IndividualFeed from "./pages/IndividualFeed";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { ActivityContextProvider } from "./contexts/ActivityContext";
 import { FeedContextProvider } from "./contexts/FeedContext";
@@ -25,6 +27,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot_password" element={<ForgotPassword />} />
+                <Route path="/create_post" element={<CreatePost />} />
+                <Route path="/individual_feed" element={<IndividualFeed />} />
               </Routes>
             </FeedContextProvider>
           </ActivityContextProvider>

@@ -1,11 +1,14 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { Button, Avatar, Typography, Box, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useFeedContext } from "../contexts/FeedContext";
 import { useAuthContext } from "../contexts/AuthContext";
-import { Button } from "@mui/material";
 
 import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 
@@ -134,20 +137,55 @@ const itemData = [
 
 export default function ProfilePage() {
   const { logout } = useAuthContext();
+  const navigate = useNavigate();
+
+  const { currentUser } = useAuthContext();
+
+  const { profiled_user, profiled_user_posts, getAllUserPosts } =
+    useFeedContext();
+
+  useEffect(() => {
+    getAllUserPosts(currentUser.id);
+  }, []);
 
   return (
     <>
-      <Button onClick={() => logout()}>Logout</Button>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: 1,
+        }}
+      >
+        <Button sx={{ margin: 1 }} onClick={() => logout()}>
+          Logout
+        </Button>
+        <Button onClick={() => navigate("/create_post")}>Create a Post</Button>
+      </Box>
+      <Typography sx={{ display: "flex", justifyContent: "left" }}>
+        <Avatar sx={{ marginLeft: 3, marginTop: 1, marginBottom: 2 }}></Avatar>
+        <Typography sx={{ marginLeft: 5 }}>{currentUser.firstName}</Typography>
+        <Box sx={{ marginLeft: 10 }}>
+          <Typography sx={{ fontSize: "small" }}>Followers: 0</Typography>
+          <Typography sx={{ fontSize: "small" }}>Following: 0</Typography>
+        </Box>
+      </Typography>
+
       <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
-        {itemData.map((item) => (
-          <ImageListItem sx={{ width: "33vw" }} key={item.img}>
+        {profiled_user_posts.map((item) => (
+          <ImageListItem
+            sx={{ width: "32vw" }}
+            key={item.img}
+            onClick={() => navigate("/individual_feed")}
+          >
             <img
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
+              src={`${item.Img}?w=248&fit=crop&auto=format`}
+              srcSet={`${item.Img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.description}
+              className="profile_tile"
               loading="lazy"
             />
-            <ImageListItemBar
+            {/* <ImageListItemBar
               title={item.title}
               // subtitle={<span>by: {item.author}</span>}
               position="below"
@@ -156,7 +194,7 @@ export default function ProfilePage() {
                   <ThumbUpIcon />
                 </IconButton>
               }
-            />
+            /> */}
           </ImageListItem>
         ))}
       </ImageList>
