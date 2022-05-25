@@ -1,11 +1,12 @@
 import React from "react";
-import NavBar from "../components/NavBar.tsx";
+
 import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { useActivityContext } from "../contexts/ActivityContext";
 
 const itemData = [
   {
@@ -71,6 +72,8 @@ const itemData = [
 ];
 
 export default function Home() {
+  const { createPost } = useActivityContext();
+
   const home_html = (
     <ImageList sx={{ width: "auto", height: "auto" }}>
       {itemData.map((item) => (
@@ -98,7 +101,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <NavBar /> */}
       <NavBar_bottom_fixed highlight={"/home"} home_html={home_html} />
     </>
   );

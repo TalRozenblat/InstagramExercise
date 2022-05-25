@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar.tsx";
+
 import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
