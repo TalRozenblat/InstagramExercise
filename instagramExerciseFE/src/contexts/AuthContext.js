@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -12,16 +13,20 @@ export function AuthContextProvider({ children }) {
     JSON.parse(localStorage.getItem("user"))
   );
 
+  const navigate = useNavigate();
+
   const login = async (user) => {
     try {
       const existing_user = await axios.post(
-        "http://localhost:8080/login",
+        "http://localhost:8080/user/login",
         user
       );
+      console.log(existing_user);
       if (existing_user) {
         // localStorage.setItem("token", existing_user.data.token);
         localStorage.setItem("user", JSON.stringify(existing_user.data));
         setCurrentUser(existing_user.data);
+        navigate("/profile");
       }
     } catch (err) {
       return { error: err };
@@ -30,7 +35,10 @@ export function AuthContextProvider({ children }) {
 
   const signUp = async (new_user) => {
     try {
-      const user = await axios.post("http://localhost:8080/signup", new_user);
+      const user = await axios.post(
+        "http://localhost:8080/user/signup",
+        new_user
+      );
       return user;
     } catch (err) {
       return { error: err };
@@ -59,7 +67,9 @@ export function AuthContextProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={(login, logout, signUp, resetPassword)}>
+    <AuthContext.Provider
+      value={{ login, logout, signUp, resetPassword, currentUser }}
+    >
       {" "}
       {children}
     </AuthContext.Provider>

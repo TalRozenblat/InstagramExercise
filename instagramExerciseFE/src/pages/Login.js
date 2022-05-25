@@ -12,6 +12,7 @@ import { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -25,12 +26,6 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const paperStyle = {
-    padding: 20,
-    height: "auto",
-    width: 290,
-    margin: "20px auto",
-  };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
   const inputStyle = { margin: "8px 0" };
   const buttonStyle = { margin: "8px 0" };
@@ -69,7 +64,7 @@ export default function Login() {
     setLoading(false);
   }
 
-  return (
+  const login_html = (
     <>
       <Grid sx={{ padding: "6%" }}>
         {/* <Paper elevation=10} style={paperStyle}> */}
@@ -123,13 +118,19 @@ export default function Login() {
             Forgot Password?
           </Button>
         </Typography>
-        <Typography>
-          {" "}
-          Don't have an account?
-          <Button onClick={() => navigate("/signup")}>Sign Up</Button>
-        </Typography>
+        {/* <Typography>
+        {" "}
+        Don't have an account?
+        <Button onClick={() => navigate("/signup")}>Sign Up</Button>
+      </Typography> */}
         {/* </Paper> */}
       </Grid>
+    </>
+  );
+
+  return (
+    <>
+      <NavBar_bottom_fixed highlight={"/login"} login_html={login_html} />
     </>
   );
 }

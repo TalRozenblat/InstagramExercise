@@ -10,6 +10,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import NavBar_bottom_fixed from "../components/NavBar_bottom_fixed.tsx";
 import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "../contexts/AuthContext";
@@ -80,11 +81,12 @@ export default function Login() {
         email: email.toLowerCase(),
         // image: image,
         password: newPassword,
-        repassword: newPasswordConfirm,
+        checkPassword: newPasswordConfirm,
       };
       setError("");
       setLoading(true);
       const response = await signUp(new_user);
+      console.log("got here");
       if (response.error) {
         error = response.error.response.data;
         throw new Error(error);
@@ -96,7 +98,7 @@ export default function Login() {
     setLoading(false);
   }
 
-  return (
+  const signup_html = (
     <>
       <Grid sx={{ padding: "6%" }}>
         <Grid align="center">
@@ -112,7 +114,6 @@ export default function Login() {
           {success && (
             <Alert style={inputStyle} severity="success">
               {success}
-              <Button size="small">Close</Button>
             </Alert>
           )}
         </Grid>
@@ -175,21 +176,27 @@ export default function Login() {
           Sign Up
         </Button>
         {/* <div className="photo_upload_container">
-          <span className="upload_pic_text">Pet Picture</span>
-          <InputLabel id="demo-simple-select-label">Profile Picture</InputLabel>
-          <input
-            type="file"
-            onChange={handleImageChange}
-            name="newImage"
-            id="image"
-          />
-        </div> */}
-        <Typography>
+        <span className="upload_pic_text">Pet Picture</span>
+        <InputLabel id="demo-simple-select-label">Profile Picture</InputLabel>
+        <input
+          type="file"
+          onChange={handleImageChange}
+          name="newImage"
+          id="image"
+        />
+      </div> */}
+        {/* <Typography>
           {" "}
           Already have an account?
           <Button onClick={() => navigate("/login")}>Login</Button>
-        </Typography>
+        </Typography> */}
       </Grid>
+    </>
+  );
+
+  return (
+    <>
+      <NavBar_bottom_fixed highlight={"/signup"} signup_html={signup_html} />
     </>
   );
 }
