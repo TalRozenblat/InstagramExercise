@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { useActivityContext } from "../contexts/ActivityContext";
+import { useFeedContext } from "../contexts/FeedContext";
 
 const itemData = [
   {
@@ -73,20 +74,20 @@ const itemData = [
 
 export default function Home() {
   const { createPost } = useActivityContext();
+  const { publicFeed } = useFeedContext();
 
   const home_html = (
     <ImageList sx={{ width: "auto", height: "auto" }} cols={1}>
-      {itemData.map((item) => (
+      {publicFeed.map((item) => (
         <ImageListItem key={item.img}>
           <img
-            src={`${item.img}?w=248&fit=crop&auto=format`}
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={item.title}
+            src={`${item.Img}?w=248&fit=crop&auto=format`}
+            srcSet={`${item.Img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt={"placeholder"}
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.title}
-            subtitle={<span>by: {item.author}</span>}
+            subtitle={<span>{item.description}</span>}
             position="below"
             actionIcon={
               <IconButton>
