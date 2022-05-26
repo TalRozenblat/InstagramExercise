@@ -5,3 +5,10 @@
 .profile_tile {
   max-height: 14vh;
 }
+
+.feed_description {
+  margin-left: 5vw;
+  margin-top: 1vh;
+  font-family: roboto, arial;
+  font-size: 1.2em;
+}

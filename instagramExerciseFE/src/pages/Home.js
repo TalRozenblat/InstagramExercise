@@ -87,7 +87,9 @@ export default function Home() {
             loading="lazy"
           />
           <ImageListItemBar
-            subtitle={<span>{item.description}</span>}
+            subtitle={
+              <div className="feed_description">{item.description}</div>
+            }
             position="below"
             actionIcon={
               <IconButton>
