@@ -139,13 +139,14 @@ export default function ProfilePage() {
   const { logout } = useAuthContext();
   const navigate = useNavigate();
 
-  const { currentUser } = useAuthContext();
+  const { currentUser, profiledUser } = useAuthContext();
 
-  const { profiled_user, profiled_user_posts, getAllUserPosts } =
-    useFeedContext();
+  const { profiled_user_posts, getAllUserPosts } = useFeedContext();
+
+  useEffect(() => console.log(profiledUser));
 
   useEffect(() => {
-    getAllUserPosts(currentUser.id);
+    getAllUserPosts(profiledUser.id);
   }, []);
 
   return (
@@ -164,7 +165,7 @@ export default function ProfilePage() {
       </Box>
       <Typography sx={{ display: "flex", justifyContent: "left" }}>
         <Avatar sx={{ marginLeft: 3, marginTop: 1, marginBottom: 2 }}></Avatar>
-        <Typography sx={{ marginLeft: 5 }}>{currentUser.firstName}</Typography>
+        <Typography sx={{ marginLeft: 5 }}>{profiledUser.firstName}</Typography>
         <Box sx={{ marginLeft: 10 }}>
           <Typography sx={{ fontSize: "small" }}>Followers: 0</Typography>
           <Typography sx={{ fontSize: "small" }}>Following: 0</Typography>

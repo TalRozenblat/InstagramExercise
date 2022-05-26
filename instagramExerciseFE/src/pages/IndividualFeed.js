@@ -73,7 +73,7 @@ const itemData = [
 
 export default function IndividualFeed() {
   const { getAllUserPosts, profiled_user_posts } = useFeedContext();
-  const { currentUser } = useAuthContext();
+  const { currentUser, profiledUser } = useAuthContext();
 
   const feed_html = (
     <ImageList sx={{ width: "auto", height: "auto" }} cols={1}>
@@ -89,7 +89,7 @@ export default function IndividualFeed() {
             // title={item.title}
             subtitle={
               <>
-                <div className="feed_name"> {currentUser.firstName}</div>
+                <div className="feed_name"> {profiledUser.firstName}</div>
                 <div className="feed_description"> {item.description}</div>
               </>
             }

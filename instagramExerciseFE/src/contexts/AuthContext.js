@@ -12,6 +12,9 @@ export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+  const [profiledUser, setProfiledUser] = useState(
+    JSON.parse(localStorage.getItem("profiled_user"))
+  );
 
   const navigate = useNavigate();
 
@@ -25,12 +28,24 @@ export function AuthContextProvider({ children }) {
       if (existing_user) {
         // localStorage.setItem("token", existing_user.data.token);
         localStorage.setItem("user", JSON.stringify(existing_user.data));
+        localStorage.setItem(
+          "profiled_user",
+          JSON.stringify(existing_user.data)
+        );
+        setProfiledUser(existing_user.data);
         setCurrentUser(existing_user.data);
         navigate("/profile");
       }
     } catch (err) {
       return { error: err };
     }
+  };
+
+  const getUserData = async (id) => {
+    const res = await axios.get(`http://localhost:8080/user/${id}`);
+    setProfiledUser(res.data);
+    localStorage.setItem("profiled_user", JSON.stringify(res.data));
+    return res.data;
   };
 
   const signUp = async (new_user) => {
@@ -68,7 +83,16 @@ export function AuthContextProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, signUp, resetPassword, currentUser }}
+      value={{
+        login,
+        logout,
+        signUp,
+        resetPassword,
+        currentUser,
+        getUserData,
+        profiledUser,
+        setProfiledUser,
+      }}
     >
       {" "}
       {children}

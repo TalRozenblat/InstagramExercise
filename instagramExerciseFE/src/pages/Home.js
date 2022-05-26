@@ -8,6 +8,8 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { useActivityContext } from "../contexts/ActivityContext";
 import { useFeedContext } from "../contexts/FeedContext";
+import { useAuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const itemData = [
   {
@@ -74,7 +76,18 @@ const itemData = [
 
 export default function Home() {
   const { createPost } = useActivityContext();
-  const { publicFeed } = useFeedContext();
+  const { getUserData } = useAuthContext();
+  const { publicFeed, setProfiledUser, getAllUserPosts } = useFeedContext();
+
+  const navigate = useNavigate();
+
+  const handleProfile = async (id) => {
+    const res_user = await getUserData(id);
+    const res_posts = await getAllUserPosts(id);
+    if (res_user) {
+      navigate("/profile");
+    }
+  };
 
   const home_html = (
     <ImageList sx={{ width: "auto", height: "auto" }} cols={1}>
@@ -89,7 +102,13 @@ export default function Home() {
           <ImageListItemBar
             subtitle={
               <>
-                <div className="feed_name"> {item.firstName}</div>
+                <div
+                  className="feed_name"
+                  onClick={() => handleProfile(item.userId)}
+                >
+                  {" "}
+                  {item.firstName}
+                </div>
                 <div className="feed_description"> {item.description}</div>
               </>
             }

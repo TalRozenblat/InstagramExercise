@@ -9,6 +9,7 @@ export function useFeedContext() {
 
 export function FeedContextProvider({ children }) {
   const [profiled_user_posts, set_profiled_user_posts] = useState([]);
+  const [profiledUser, setProfiledUser] = useState();
   const [publicFeed, setPublicFeed] = useState([]);
 
   const getAllUserPosts = async (id) => {
@@ -35,7 +36,14 @@ export function FeedContextProvider({ children }) {
 
   return (
     <FeedContext.Provider
-      value={{ getAllUserPosts, profiled_user_posts, getAllPosts, publicFeed }}
+      value={{
+        getAllUserPosts,
+        profiled_user_posts,
+        getAllPosts,
+        publicFeed,
+        profiledUser,
+        setProfiledUser,
+      }}
     >
       {" "}
       {children}
