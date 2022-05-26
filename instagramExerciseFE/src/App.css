@@ -12,3 +12,10 @@
   font-family: roboto, arial;
   font-size: 1.2em;
 }
+
+.feed_name {
+  font-size: 1.6em;
+  margin-left: 3vw;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+}

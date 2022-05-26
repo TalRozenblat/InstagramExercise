@@ -24,6 +24,7 @@ export function FeedContextProvider({ children }) {
   const getAllPosts = async () => {
     try {
       const res = await axios.get("http://localhost:8080/post");
+      console.log(res);
       setPublicFeed(res.data);
     } catch (err) {
       return err;

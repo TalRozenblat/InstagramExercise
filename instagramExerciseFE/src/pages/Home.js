@@ -88,7 +88,10 @@ export default function Home() {
           />
           <ImageListItemBar
             subtitle={
-              <div className="feed_description">{item.description}</div>
+              <>
+                <div className="feed_name"> {item.firstName}</div>
+                <div className="feed_description"> {item.description}</div>
+              </>
             }
             position="below"
             actionIcon={

@@ -1,7 +1,9 @@
 import db from "../config/config.js";
 import Post from "../data/Posts.js";
+import User from "../data/Users.js";
 import Like from "../data/Likes.js";
 import { v2 as cloudinary } from "cloudinary";
+import { V4MAPPED } from "dns";
 
 const addPost = async (req, res) => {
   console.log(req.body);
@@ -23,9 +25,18 @@ const addPost = async (req, res) => {
 };
 
 const getAllPosts = async (req, res) => {
+  const newPosts = [];
   const posts = await Post.find();
 
-  return res.send(posts);
+  const arr = await Promise.all(
+    posts.map(async (post) => {
+      const res = await User.find({ _id: post.userId });
+      post = { ...post._doc, firstName: res[0].firstName };
+      return post;
+    })
+  );
+
+  return res.send(arr);
 };
 const getPostsByUserId = async (req, res) => {
   const posts = await Post.find({ userId: req.params.id });
