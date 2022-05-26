@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { useFeedContext } from "../contexts/FeedContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const itemData = [
   {
@@ -72,6 +73,7 @@ const itemData = [
 
 export default function IndividualFeed() {
   const { getAllUserPosts, profiled_user_posts } = useFeedContext();
+  const { currentUser } = useAuthContext();
 
   const feed_html = (
     <ImageList sx={{ width: "auto", height: "auto" }} cols={1}>
@@ -85,7 +87,12 @@ export default function IndividualFeed() {
           />
           <ImageListItemBar
             // title={item.title}
-            subtitle={<span>{item.description}</span>}
+            subtitle={
+              <>
+                <div className="feed_name"> {currentUser.firstName}</div>
+                <div className="feed_description"> {item.description}</div>
+              </>
+            }
             position="below"
             actionIcon={
               <IconButton>
